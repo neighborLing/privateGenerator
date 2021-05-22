@@ -3,7 +3,7 @@ function tablehandle({
 }) {
   const tables = value.match(/<table.+?\/table>/g);
 
-  tables.forEach((item) => {
+  tables && tables.forEach((item) => {
     console.log('item: ', item);
     value = value.replace(item, singleTableHandler(item));
   })
