@@ -9,7 +9,12 @@ const upload = multer({
   dest: path.join(__dirname, '../file')
 })
 const fs = require('fs');
-const { tablehandle } = require('./utils/htmlTransform.js');
+const {
+  tablehandle,
+  styleToClass,
+  exportCssFile,
+  exportJsFile
+} = require('./htmlTransform.js');
 
 app.use(express.static(path.join(__dirname, '../file')));
 app.use(upload.any())
@@ -54,13 +59,16 @@ app.post('/fileGenerator', async (req, res) => {
       break;
   }
 
-  const filePath = `${fileName || timestamp}.${type}`;
+  // const filePath = `${fileName || timestamp}.${type}`;
   
-  await fs.writeFileSync(path.join(__dirname, `../file/${filePath}`), `"${content}"`);
+  // await fs.writeFileSync(path.join(__dirname, `../file/${filePath}`), `"${content}"`);
+  const classes = styleToClass(content);
+  const cssFilePath = exportCssFile(classes);
+  const jsFilePath = exportJsFile(content, classes);
 
-  res.json({
-    filePath
-  });
+  // res.json({
+  //   filePath
+  // });
 })
 
 app.get(`/:filePath/download`, (req, res) => {
@@ -71,3 +79,4 @@ app.get(`/:filePath/download`, (req, res) => {
 app.listen(port, () => {
   console.log(`listen at ${port}`);
 })
+

@@ -33,8 +33,8 @@ export default class privateGenerator extends React.Component {
     const r = await generate({
       content, type, fileName
     });
-    const filePath = _.get(r, 'data.filePath', '');
-    window.open(`${baseUrl}/${filePath}/download`);
+    // const filePath = _.get(r, 'data.filePath', '');
+    // window.open(`${baseUrl}/${filePath}/download`);
   }
 
   contentChanged = (content) => {
